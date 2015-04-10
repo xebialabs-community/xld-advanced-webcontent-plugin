@@ -38,12 +38,9 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
       </steps>
     </rule>
 
-    <rule name="generic.CopiedArtifact.invokeBuild.CREATE_MODIFY" scope="deployed">
+    <rule name="wwwx.VersionedPublishedWebContent.invokePostProcessing.CREATE_MODIFY" scope="deployed">
       <conditions>
         <type>wwwx.VersionedPublishedWebContent</type>
-        <!-- switch to generic.CopiedArtifact once we have to deployed.buildCommand expression working for deployed without this property
-        <type>generic.CopiedArtifact</type>
-        -->
         <operation>CREATE</operation>
         <operation>MODIFY</operation>
         <expression>deployed.postProcessCommand != ''</expression>
