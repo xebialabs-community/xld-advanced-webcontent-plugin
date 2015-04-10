@@ -1,0 +1,61 @@
+<!--
+THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+-->
+<?xml version="1.0"?>
+<!--
+    Note: If you modify this file and automatic reloading is disabled in `planner.conf`, you must restart the XL Deploy server.
+  -->
+  <rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
+    <!-- Add your <rule ...> and <disable-rule ...> elements here -->
+
+    <rule name="wwwx.VersionedPublishedWebContent.CREATE_MODIFY" scope="deployed">
+      <conditions>
+        <type>wwwx.VersionedPublishedWebContent</type>
+        <operation>CREATE</operation>
+        <operation>MODIFY</operation>
+      </conditions>
+      <steps>
+        <os-script>
+          <description expression="true">"Symlink %s to %s" % (deployed.name, deployed.nextSymlinkName)</description>
+          <script>wwwx/link-webcontent</script>
+          <freemarker-context>
+            <linkTarget expression="true">deployed.nextSymlinkName</linkTarget>
+          </freemarker-context>
+          <upload-artifacts>false</upload-artifacts>
+          <order expression="true">deployed.createOrder + 2</order>
+        </os-script>
+        <os-script>
+          <description expression="true">"Symlink %s to %s" % (deployed.name, deployed.currentSymlinkName)</description>
+          <script>wwwx/link-webcontent</script>
+          <freemarker-context>
+            <linkTarget expression="true">deployed.currentSymlinkName</linkTarget>
+          </freemarker-context>
+          <upload-artifacts>false</upload-artifacts>
+          <order expression="true">90</order>
+        </os-script>
+      </steps>
+    </rule>
+
+    <rule name="generic.CopiedArtifact.invokeBuild.CREATE_MODIFY" scope="deployed">
+      <conditions>
+        <type>wwwx.VersionedPublishedWebContent</type>
+        <!-- switch to generic.CopiedArtifact once we have to deployed.buildCommand expression working for deployed without this property
+        <type>generic.CopiedArtifact</type>
+        -->
+        <operation>CREATE</operation>
+        <operation>MODIFY</operation>
+        <expression>deployed.postProcessCommand != ''</expression>
+      </conditions>
+      <steps>
+        <os-script>
+          <description expression="true">"Invoke post processing on %s" % deployed.name</description>
+          <script>wwwx/invoke-post-processing</script>
+          <upload-artifacts>false</upload-artifacts>
+          <order expression="true">deployed.createOrder + 1</order>
+        </os-script>
+      </steps>
+    </rule>
+
+  </rules>

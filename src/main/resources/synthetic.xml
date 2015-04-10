@@ -1,0 +1,28 @@
+<!--
+THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS
+FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALABS.
+-->
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+    Note: If you modify this file, you must restart the XL Deploy server.
+  -->
+  <synthetic xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd" xmlns="http://www.xebialabs.com/deployit/synthetic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+   <type type="wwwx.VersionedPublishedWebContent" extends="wwwx.PublishedWebContent" deployable-type="wwwx.VersionedWebContent">
+    <property name="targetDirectory" description="Target directory name" hidden="true" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;/${deployed.deployedApplication.version.name}"/>
+    <property name="currentSymlinkName" default="current" />
+    <property name="nextSymlinkName" default="next" />
+    <property name="createVerb" default="Deploy next" hidden="true" />
+    <property name="destroyVerb" default="Remove previous" hidden="true" />
+    <property name="destroyOrder" default="110" kind="integer" hidden="true" />
+    <property name="createTargetDirectory" default="true" kind="boolean" hidden="true" />
+    <property name="postProcessCommand" default="" />
+  </type>
+
+  <type type="wwwx.VersionedWebContent" extends="wwwx.WebContent">
+   <property name="currentSymlinkName" default="current" required="false" />
+   <property name="nextSymlinkName" default="next" required="false" />
+   <property name="postProcessCommand" default="" required="false" />
+ </type>
+</synthetic>
