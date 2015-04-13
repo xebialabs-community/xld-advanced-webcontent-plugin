@@ -37,6 +37,15 @@ repositories {
   }
 }
 
+import org.apache.tools.ant.filters.*
+
+processResources {
+  filter ReplaceTokens, tokens: [
+    "project.version": project.property("version"),
+    "project.artifactId": project.property("name")
+  ]
+}
+
 license {
   header rootProject.file('src/main/license/xebialabs_community.license')
   strictCheck false
