@@ -7,5 +7,5 @@
 
 pushd ${deployed.targetDirectory} || exit 1
 
-rm -rv $(cat .xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name})
+rm -rv $(cat ".xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}")
 rm .xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}

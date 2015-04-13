@@ -5,16 +5,16 @@
 -->
 #!/bin/sh
 
-if [ ! -e ${deployed.targetDirectory} ] ; then
+if [ ! -e "${deployed.targetDirectory}" ] ; then
 	echo creating target dir ${deployed.targetDirectory}
-	install -d ${deployed.targetDirectory} || exit 1
+	install -d "${deployed.targetDirectory}" || exit 1
 fi
 
-pushd ${deployed.targetDirectory} || exit 1
+pushd "${deployed.targetDirectory}" || exit 1
 
 case "${deployed.file}" in
 *.zip)
-	EXTRACT_COMMAND="unzip -r -o"
+	EXTRACT_COMMAND="unzip -o"
 	LIST_COMMAND="unzip -Z -1"
 	;;
 *.tgz|*.tar.gz)
@@ -32,9 +32,9 @@ esac
 
 echo extracting archive:
 echo $EXTRACT_COMMAND ${deployed.file}
-$EXTRACT_COMMAND ${deployed.file} || exit 1
+$EXTRACT_COMMAND "${deployed.file}" || exit 1
 
 echo saving manifest
 echo $LIST_COMMAND ${deployed.file}
-$LIST_COMMAND ${deployed.file} | cut -d / -f 1 | sort -u > .xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}
+$LIST_COMMAND "${deployed.file}" | cut -d / -f 1 | sort -u > ".xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}"
 
