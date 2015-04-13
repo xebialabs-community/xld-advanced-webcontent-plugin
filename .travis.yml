@@ -1,0 +1,10 @@
+language: java
+deploy:
+  provider: releases
+  api_key:
+    secure: hhWXvMFUn/b8VhrWrkuIdqn71yILUWo5AjY0/6cH31hViytuOKhameHxKiWaVJlb1CM4gVER7oLJHAGU8itY8i6Hp8tI9IWnmx0Ai52wP/0G47CXOhwuxJwqy11Mk4ALrAxjCIF+WPGx4lNpsBaZn1LTcYNPGRw5v5RNsLoMif8=
+  file: build/libs/xld-advanced-webcontent-plugin-0.1.0.jar
+  on:
+    all_branches: true
+    tags: true
+    repo: xebialabs-community/xld-advanced-webcontent-plugin
