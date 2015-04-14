@@ -10,6 +10,24 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
   <rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
     <!-- Add your <rule ...> and <disable-rule ...> elements here -->
 
+    <rule name="wwwx.VersionedPublishedWebContent.MODIFY" scope="deployed">
+      <conditions>
+        <type>wwwx.VersionedPublishedWebContent</type>
+        <operation>MODIFY</operation>
+      </conditions>
+      <steps>
+        <jython>
+          <order>1</order>
+            <description expression="true">"Increment deployment sequence number on %s" % (deployed.name)</description>
+            <script-path>wwwx/increment-deploymentSequenceNumber-on-versionedWebContent.py</script-path>
+            <jython-context>
+              <repositoryService expression="true">repositoryService</repositoryService>
+              <logger expression="true">logger</logger>
+            </jython-context>
+        </jython>
+      </steps>
+    </rule>
+
     <rule name="wwwx.VersionedPublishedWebContent.CREATE_MODIFY" scope="deployed">
       <conditions>
         <type>wwwx.VersionedPublishedWebContent</type>

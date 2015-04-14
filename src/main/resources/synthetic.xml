@@ -23,17 +23,19 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
     <property name="destroyVerb" default="Remove" hidden="true" />
 
     <property name="createScript" default="wwwx/create-large-published-web-content" hidden="true"/>
-    <property name="modifyScript" default="wwwx/create-large-published-web-content" hidden="true"/>
     <property name="destroyScript" default="wwwx/destroy-large-published-web-content" hidden="true"/>
   </type>
 
   <type type="wwwx.VersionedPublishedWebContent" extends="wwwx.LargePublishedWebContent" deployable-type="wwwx.VersionedWebContent">
-    <property name="targetDirectory" description="Target directory name" hidden="true" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;/${deployed.deployedApplication.version.name}"/>
     <property name="currentSymlinkName" default="current" />
     <property name="nextSymlinkName" default="next" />
     <property name="postProcessCommand" default="" />
 
+    <!-- automatically incremented -->
+    <property name="deploymentSequenceNumber" kind="integer" default="1" hidden="false"/>
+
     <!-- admin properties -->
+    <property name="targetDirectory" description="Target directory name" hidden="true" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;/${deployed.deployedApplication.version.name}-${deployed.deploymentSequenceNumber}"/>
     <property name="createVerb" default="Deploy next" hidden="true" />
     <property name="destroyVerb" default="Remove previous" hidden="true" />
     <property name="destroyOrder" default="110" kind="integer" hidden="true" />
