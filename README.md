@@ -21,7 +21,7 @@ The Advanced WebContent plugin is a XL Deploy plugin that extends the standard W
 
 # Installation #
 
-Place the plugin JAR file into your `SERVER_HOME/plugins` directory.   Make sure you have additional runtime libiraries mentioned in the requirements section also installed in the correct directory.
+Place the plugin JAR file into your `SERVER_HOME/plugins` directory.   Make sure you have additional runtime libraries mentioned in the requirements section also installed in the correct directory.
 
 # Usage #
 
