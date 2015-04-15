@@ -8,3 +8,7 @@ deploy:
     all_branches: true
     tags: true
     repo: xebialabs-community/xld-advanced-webcontent-plugin
+notifications:
+  hipchat:
+    rooms:
+      secure: G9Bt+Ho0KRKMz5/MieWrM5CSoHwyJbJtQx1hvYtX4Ld8Q0Z87oguYW+Pf8e0VJIlyQVq9bSIoL4z+yV/H4D07s0dazeEngcT2A1tK6R2AsOhtZqttKS0yCv2tZEgMwTjmWyJ+5e26vYM0Rym7whJ+RwVP/reLUZy3m5Z6koHHdE=
