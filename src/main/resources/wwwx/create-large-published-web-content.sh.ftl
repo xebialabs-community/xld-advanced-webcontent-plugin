@@ -12,7 +12,7 @@ fi
 
 pushd "${deployed.targetDirectory}" || exit 1
 
-case "${deployed.file}" in
+case "${deployed.file.path}" in
 *.zip)
 	EXTRACT_COMMAND="unzip -o"
 	LIST_COMMAND="unzip -Z -1"
@@ -31,10 +31,10 @@ case "${deployed.file}" in
 esac
 
 echo extracting archive:
-echo $EXTRACT_COMMAND ${deployed.file}
-$EXTRACT_COMMAND "${deployed.file}" || exit 1
+echo $EXTRACT_COMMAND ${deployed.file.path}
+$EXTRACT_COMMAND "${deployed.file.path}" || exit 1
 
 echo saving manifest
-echo $LIST_COMMAND ${deployed.file}
-$LIST_COMMAND "${deployed.file}" | cut -d / -f 1 | sort -u > ".xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}"
+echo $LIST_COMMAND ${deployed.file.path}
+$LIST_COMMAND "${deployed.file.path}" | cut -d / -f 1 | sort -u > ".xldeploy-manifest-${deployed.deployable.name}"
 

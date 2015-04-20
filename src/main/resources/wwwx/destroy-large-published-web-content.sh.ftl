@@ -5,7 +5,8 @@
 -->
 #!/bin/sh
 
-pushd ${deployed.targetDirectory} || exit 1
+pushd ${previousDeployed.targetDirectory} || exit 1
 
-rm -rv $(cat ".xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}")
-rm .xldeploy-manifest-${deployed.deployable.name}-${deployed.deployedApplication.version.name}
+MANIFEST=".xldeploy-manifest-${previousDeployed.deployable.name}"
+rm -rv $(cat "$MANIFEST")
+rm "$MANIFEST"
