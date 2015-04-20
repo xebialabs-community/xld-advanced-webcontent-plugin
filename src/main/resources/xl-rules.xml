@@ -10,24 +10,75 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
   <rules xmlns="http://www.xebialabs.com/xl-deploy/xl-rules">
     <!-- Add your <rule ...> and <disable-rule ...> elements here -->
 
-    <rule name="wwwx.VersionedPublishedWebContent.MODIFY" scope="deployed">
+    <!-- wwwx.LargePublishedWebContent -->
+    <rule name="wwwx.LargePublishedWebContent.CREATE" scope="deployed">
       <conditions>
-        <type>wwwx.VersionedPublishedWebContent</type>
-        <operation>MODIFY</operation>
+        <type>wwwx.LargePublishedWebContent</type>
+        <operation>CREATE</operation>
       </conditions>
       <steps>
-        <jython>
-          <order>1</order>
-            <description expression="true">"Increment deployment sequence number on %s" % (deployed.name)</description>
-            <script-path>wwwx/increment-deploymentSequenceNumber-on-versionedWebContent.py</script-path>
-            <jython-context>
-              <repositoryService expression="true">repositoryService</repositoryService>
-              <logger expression="true">logger</logger>
-            </jython-context>
-        </jython>
+        <os-script>
+          <description expression="true">"%s %s to %s" % (deployed.deployVerb, deployed.name, deployed.container.name)</description>
+          <script>wwwx/create-large-published-web-content</script>
+          <upload-artifacts>true</upload-artifacts>
+          <order expression="true">deployed.createOrder</order>
+          <freemarker-context>
+            <deployedApplication expression="true">context.deployedApplication</deployedApplication>
+          </freemarker-context>
+        </os-script>
+        <checkpoint/>
       </steps>
     </rule>
 
+    <rule name="wwwx.LargePublishedWebContent.MODIFY" scope="deployed">
+      <conditions>
+        <type>wwwx.LargePublishedWebContent</type>
+        <operation>MODIFY</operation>
+      </conditions>
+      <steps>
+        <os-script>
+          <description expression="true">"%s %s on %s" % (previousDeployed.destroyVerb, previousDeployed.name, previousDeployed.container.name)</description>
+          <script>wwwx/destroy-large-published-web-content</script>
+          <upload-artifacts>true</upload-artifacts>
+          <order expression="true">previousDeployed.destroyOrder</order>
+          <freemarker-context>
+            <deployedApplication expression="true">context.deployedApplication</deployedApplication>
+          </freemarker-context>
+        </os-script>
+        <checkpoint completed="DESTROY"/>
+        <os-script>
+          <description expression="true">"%s %s to %s" % (deployed.deployVerb, deployed.name, deployed.container.name)</description>
+          <script>wwwx/create-large-published-web-content</script>
+          <upload-artifacts>true</upload-artifacts>
+          <order expression="true">deployed.createOrder</order>
+          <freemarker-context>
+            <deployedApplication expression="true">context.deployedApplication</deployedApplication>
+          </freemarker-context>
+        </os-script>
+        <checkpoint completed="CREATE"/>
+      </steps>
+    </rule>
+
+    <rule name="wwwx.LargePublishedWebContent.DESTROY" scope="deployed">
+      <conditions>
+        <type>wwwx.LargePublishedWebContent</type>
+        <operation>DESTROY</operation>
+      </conditions>
+      <steps>
+        <os-script>
+          <description expression="true">"%s %s on %s" % (previousDeployed.destroyVerb, previousDeployed.name, previousDeployed.container.name)</description>
+          <script>wwwx/destroy-large-published-web-content</script>
+          <upload-artifacts>true</upload-artifacts>
+          <order expression="true">previousDeployed.destroyOrder</order>
+          <freemarker-context>
+            <deployedApplication expression="true">context.deployedApplication</deployedApplication>
+          </freemarker-context>
+        </os-script>
+        <checkpoint/>
+      </steps>
+    </rule>
+
+    <!-- wwwx.VersionedPublishedWebContent -->
     <rule name="wwwx.VersionedPublishedWebContent.CREATE_MODIFY" scope="deployed">
       <conditions>
         <type>wwwx.VersionedPublishedWebContent</type>
@@ -35,6 +86,16 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
         <operation>MODIFY</operation>
       </conditions>
       <steps>
+        <jython>
+          <order>1</order>
+            <description expression="true">"Determine target directory for %s" % (deployed.name)</description>
+            <script>wwwx/determine-targetDirectory-for-versionedWebContent.py</script>
+            <jython-context>
+              <repositoryService expression="true">repositoryService</repositoryService>
+              <logger expression="true">logger</logger>
+              <version expression="true">context.deployedApplication.version.name</version>
+            </jython-context>
+        </jython>
         <os-script>
           <description expression="true">"Symlink %s to %s" % (deployed.name, deployed.nextSymlinkName)</description>
           <script>wwwx/link-webcontent</script>

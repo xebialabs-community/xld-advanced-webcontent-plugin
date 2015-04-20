@@ -9,37 +9,29 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
   -->
   <synthetic xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd" xmlns="http://www.xebialabs.com/deployit/synthetic" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-  <type type="wwwx.LargePublishedWebContent" extends="generic.ExecutedScriptWithDerivedArtifact" deployable-type="wwwx.LargeWebContent"  container-type="www.ApacheHttpdServer" description="A large set of web content on the webserver">
-    <generate-deployable type="wwwx.LargeWebContent" extends="generic.Archive" description="Possibly large archive containing web content (HTML pages, images, etc)"/>
+  <type type="wwwx.LargePublishedWebContent" extends="udm.BaseDeployedArtifact" deployable-type="wwwx.LargeWebContent"  container-type="www.ApacheHttpdServer" description="A large set of web content on the webserver">
+    <generate-deployable type="wwwx.LargeWebContent" extends="udm.BaseDeployableArchiveArtifact" description="Possibly large archive containing web content (HTML pages, images, etc)"/>
 
     <property name="virtualHost" kind="ci" required="false" referenced-type="www.ApacheVirtualHost" description="Virtual host which this web content maps to."/>
 
     <!-- admin properties -->
-    <property name="targetDirectory" description="Target directory name" hidden="true" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;"/>
-    <property name="targetFile" required="false" hidden="true" />
-    <property name="restartRequired" kind="boolean" required="false" default="false" hidden="true"/>
-
+    <property name="targetDirectory" description="Target directory name" hidden="false" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;"/>
     <property name="createVerb" default="Deploy" hidden="true" />
     <property name="destroyVerb" default="Remove" hidden="true" />
-
-    <property name="createScript" default="wwwx/create-large-published-web-content" hidden="true"/>
-    <property name="destroyScript" default="wwwx/destroy-large-published-web-content" hidden="true"/>
+    <property name="createOrder" default="50" kind="integer" hidden="true" />
+    <property name="destroyOrder" default="40" kind="integer" hidden="true" />
   </type>
 
   <type type="wwwx.VersionedPublishedWebContent" extends="wwwx.LargePublishedWebContent" deployable-type="wwwx.VersionedWebContent">
+    <property name="targetDirectory" description="Target directory name" hidden="false" default="TO-BE-DETERMINED"/>
     <property name="currentSymlinkName" default="current" />
     <property name="nextSymlinkName" default="next" />
     <property name="postProcessCommand" default="" />
 
-    <!-- automatically incremented -->
-    <property name="deploymentSequenceNumber" kind="integer" default="1" hidden="false"/>
-
     <!-- admin properties -->
-    <property name="targetDirectory" description="Target directory name" hidden="true" default="&lt;#assign target=(deployed.virtualHost.documentRoot)!''/&gt;&lt;#if target != ''&gt;${target}&lt;#else&gt;${deployed.container.defaultDocumentRoot}&lt;/#if&gt;/${deployed.deployedApplication.version.name}-${deployed.deploymentSequenceNumber}"/>
     <property name="createVerb" default="Deploy next" hidden="true" />
     <property name="destroyVerb" default="Remove previous" hidden="true" />
     <property name="destroyOrder" default="110" kind="integer" hidden="true" />
-    <property name="createTargetDirectory" default="true" kind="boolean" hidden="true" />
   </type>
 
   <type type="wwwx.VersionedWebContent" extends="wwwx.LargeWebContent">
