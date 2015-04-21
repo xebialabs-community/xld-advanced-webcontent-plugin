@@ -13,19 +13,9 @@ apply plugin: "com.github.hierynomus.license"
 apply plugin: 'java'
 apply plugin: 'idea'
 
-dependencies {
-}
-
 repositories {
   mavenLocal()
   mavenCentral()
-  maven {
-    credentials {
-      username 'community-plugins'
-      password 'community'
-    }
-    url 'http://nexus.xebialabs.com/nexus/content/repositories/releases'
-  }
 }
 
 import org.apache.tools.ant.filters.*
