@@ -5,12 +5,17 @@
 #
 from java.lang import System
 
-if deployed.virtualHost is None or deployed.virtualHost.documentRoot is None:
-	documentRoot = deployed.container.defaultDocumentRoot
-else:
-	documentRoot = deployed.virtualHost.documentRoot
-
 timestamp = System.currentTimeMillis()
-deployed.targetDirectory = ("%s/%s-%s" % (documentRoot, version, timestamp))
 
-logger.debug("%s: updated the targetDirectory to %s" % (deployed.id, deployed.targetDirectory) )
+for _delta in deltas.deltas:
+	if _delta.operation == "CREATE" or _delta.operation == "MODIFY":
+		deployed = _delta.deployedOrPrevious
+		if deployed.type == "wwwx.VersionedPublishedWebContent":
+			if deployed.virtualHost is None or deployed.virtualHost.documentRoot is None:
+				documentRoot = deployed.container.defaultDocumentRoot
+			else:
+				documentRoot = deployed.virtualHost.documentRoot
+
+			deployed.targetDirectory = ("%s/%s-%s" % (documentRoot, deployedApplication.version.name, timestamp))
+
+			logger.debug("%s: updated the targetDirectory to %s" % (deployed.id, deployed.targetDirectory) )

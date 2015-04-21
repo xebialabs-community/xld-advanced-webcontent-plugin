@@ -18,7 +18,7 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
       </conditions>
       <steps>
         <os-script>
-          <description expression="true">"%s %s to %s" % (deployed.deployVerb, deployed.name, deployed.container.name)</description>
+          <description expression="true">"%s %s to %s" % (deployed.createVerb, deployed.name, deployed.container.name)</description>
           <script>wwwx/create-large-published-web-content</script>
           <upload-artifacts>true</upload-artifacts>
           <order expression="true">deployed.createOrder</order>
@@ -47,7 +47,7 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
         </os-script>
         <checkpoint completed="DESTROY"/>
         <os-script>
-          <description expression="true">"%s %s to %s" % (deployed.deployVerb, deployed.name, deployed.container.name)</description>
+          <description expression="true">"%s %s to %s" % (deployed.createVerb, deployed.name, deployed.container.name)</description>
           <script>wwwx/create-large-published-web-content</script>
           <upload-artifacts>true</upload-artifacts>
           <order expression="true">deployed.createOrder</order>
@@ -79,6 +79,10 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
     </rule>
 
     <!-- wwwx.VersionedPublishedWebContent -->
+    <rule name="wwwx.VersionedPublishedWebContent.determineTargetDirectory" scope="plan">
+      <planning-script-path>wwwx/determine-targetDirectory-for-versionedWebContent.py</planning-script-path>
+    </rule>
+
     <rule name="wwwx.VersionedPublishedWebContent.CREATE_MODIFY" scope="deployed">
       <conditions>
         <type>wwwx.VersionedPublishedWebContent</type>
@@ -86,16 +90,6 @@ FOR A PARTICULAR PURPOSE. THIS CODE AND INFORMATION ARE NOT SUPPORTED BY XEBIALA
         <operation>MODIFY</operation>
       </conditions>
       <steps>
-        <jython>
-          <order>1</order>
-            <description expression="true">"Determine target directory for %s" % (deployed.name)</description>
-            <script>wwwx/determine-targetDirectory-for-versionedWebContent.py</script>
-            <jython-context>
-              <repositoryService expression="true">repositoryService</repositoryService>
-              <logger expression="true">logger</logger>
-              <version expression="true">context.deployedApplication.version.name</version>
-            </jython-context>
-        </jython>
         <os-script>
           <description expression="true">"Symlink %s to %s" % (deployed.name, deployed.nextSymlinkName)</description>
           <script>wwwx/link-webcontent</script>
