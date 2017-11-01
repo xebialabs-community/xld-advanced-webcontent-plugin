@@ -22,7 +22,7 @@ See the [XL Deploy reference manual](https://docs.xebialabs.com/xl-deploy) for b
 The Advanced WebContent plugin is a XL Deploy plugin that extends the standard WebServer plugin with two WebContent CIs for faster deployments.
 	
 
-# Requirements #
+## Requirements
 
 * **Requirements**
 	* **XL Deploy** 4.5.0
