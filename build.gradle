@@ -1,24 +1,21 @@
-buildscript {
-  repositories {
-    jcenter()
-  }
-  dependencies {
-    classpath "nl.javadude.gradle.plugins:license-gradle-plugin:0.11.0"
-  }
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+  id "com.github.hierynomus.license" version "0.14.0"
+  id "com.xebialabs.xldp" version "1.0.5"
 }
 
-version = '0.2.0'
-
-apply plugin: "com.github.hierynomus.license"
-apply plugin: 'java'
+apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'maven'
 
 repositories {
   mavenLocal()
   mavenCentral()
 }
 
-import org.apache.tools.ant.filters.*
+version = '0.2.0'
 
 processResources {
   filter ReplaceTokens, tokens: [
@@ -28,10 +25,8 @@ processResources {
 }
 
 license {
-  header rootProject.file('src/main/license/xebialabs_community.license')
+  header rootProject.file('License.md')
   strictCheck false
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+  ext.year = Calendar.getInstance().get(Calendar.YEAR)
+  ext.name = 'XEBIALABS'
 }
