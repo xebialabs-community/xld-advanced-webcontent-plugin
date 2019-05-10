@@ -2,7 +2,7 @@ language: java
 deploy:
   provider: releases
   api_key:
-    secure: hhWXvMFUn/b8VhrWrkuIdqn71yILUWo5AjY0/6cH31hViytuOKhameHxKiWaVJlb1CM4gVER7oLJHAGU8itY8i6Hp8tI9IWnmx0Ai52wP/0G47CXOhwuxJwqy11Mk4ALrAxjCIF+WPGx4lNpsBaZn1LTcYNPGRw5v5RNsLoMif8=
+    secure: KLwWUyHLEWDjpCbLcqmGYzGJBOKg9AnNIyT0F4wE+wGB95mr3gypsoULdG22PdIgBPHROCkEaW958xwRHKiGFiINQCXIsitFVfpgwo8E3vR6KIzph+vOLJQes6HqHBR9Om5wh41ZOI3RZrmzd4zMOY7OwYwOZyL7tR+xpD66UuI=
   file: build/libs/xld-advanced-webcontent-plugin-0.2.0.jar
   on:
     all_branches: true
