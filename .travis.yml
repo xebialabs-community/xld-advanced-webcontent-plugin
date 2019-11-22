@@ -3,7 +3,9 @@ deploy:
   provider: releases
   api_key:
     secure: KLwWUyHLEWDjpCbLcqmGYzGJBOKg9AnNIyT0F4wE+wGB95mr3gypsoULdG22PdIgBPHROCkEaW958xwRHKiGFiINQCXIsitFVfpgwo8E3vR6KIzph+vOLJQes6HqHBR9Om5wh41ZOI3RZrmzd4zMOY7OwYwOZyL7tR+xpD66UuI=
-  file: build/libs/xld-advanced-webcontent-plugin-0.2.0.jar
+  file_glob: true
+  file: build/distributions/*
+  skip_cleanup: true
   on:
     all_branches: true
     tags: true
